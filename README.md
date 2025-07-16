@@ -1,13 +1,13 @@
 # ⚡ FastAPI Boilerplate
 
-A minimal, production-ready FastAPI boilerplate with:
+A minimal, asynchronous, production-ready FastAPI boilerplate with:
 
 - RESTful API structure
 - Health check endpoint
-- Reservation service with full CRUD functionality
+- Reservation service for example with full CRUD functionality
 - MongoDB integration via Motor (async)
 - Centralized logging configuration
-- Dependency injection for MongoDB access
+- Dockerized application
 
 ---
 
@@ -22,7 +22,7 @@ pip install -r requirements.txt
 ### ⚙️ Environment Variables (`.env`)
 
 ```env
-MONGODB_URL=mongodb://mongo_user:mongo_password@localhost:27017/appdb?authSource=appdb
+MONGODB_URL=mongodb://mongo_user:mongo_password@localhost:27017/
 ```
 
 ---
@@ -35,8 +35,7 @@ Run the app using:
 python main.py
 ```
 
-> ✅ The API will be available at:  
-> 🌐 http://localhost:8000  
+> ✅ The API will be available at: 🌐 http://localhost:8000  
 > 📘 Swagger UI: http://localhost:8000/docs  
 > 📕 ReDoc: http://localhost:8000/redoc
 
@@ -67,6 +66,34 @@ All endpoints are prefixed with `/api/v1/reservation`
 
 **POST** `/make`  
 Creates a new reservation.
+
+Body Example:
+```json
+{
+  "customer_name": "Alice Smith",
+  "guest_name": "Alice Smith",
+  "room_type": "A-101",
+  "arrival_date": "2025-08-01",
+  "hotel_id": 1738,
+  "room_id": "A",
+  "nights": 3,
+  "room_count": 1
+}
+```
+
+Reservation Response Example:
+```json
+{
+    "reservation_id": "9fa6bb32-88a8-45b4-9e83-031a5628b5b0",
+    "guest_name": "Alice Smith",
+    "room_id": "A",
+    "room_type": "A-101",
+    "hotel_id": 1738,
+    "arrival_date": "2025-08-01",
+    "nights": 3,
+    "room_count": 1
+}
+```
 
 #### 📄 Get Reservation by UUID
 
@@ -106,7 +133,11 @@ Deletes a reservation by UUID.
 ├── main.py
 ├── requirements.txt
 ├── README.md
-└── .env
+├── .env
+└── tests
+    ├── test_health_check.py
+    └── test_reservation.py
+
 ```
 
 ---
